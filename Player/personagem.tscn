@@ -1,8 +1,62 @@
-[gd_scene load_steps=15 format=3 uid="uid://chmjj3qfa4eju"]
+[gd_scene load_steps=23 format=3 uid="uid://chmjj3qfa4eju"]
 
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_sl20s"]
-[ext_resource type="Texture2D" uid="uid://datvdt5gcttxp" path="res://Player/neutro.png" id="2_j2gld"]
+[ext_resource type="Texture2D" uid="uid://de4hxy2oyymu5" path="res://Player/emoções/Felicidade.png" id="2_bpk5d"]
 [ext_resource type="Texture2D" uid="uid://cjdpkv8okipio" path="res://Player/ataques/slashes.png" id="3_3y4oh"]
+[ext_resource type="Texture2D" uid="uid://datvdt5gcttxp" path="res://Player/emoções/Neutro.png" id="3_78swa"]
+[ext_resource type="Texture2D" uid="uid://dkooh1dbypiwl" path="res://Player/emoções/Raiva.png" id="4_vwdyy"]
+[ext_resource type="Texture2D" uid="uid://bjayigm2s16mh" path="res://Player/emoções/Tristeza.png" id="5_3eg3v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j0u5u"]
+atlas = ExtResource("2_bpk5d")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0hpa0"]
+atlas = ExtResource("3_78swa")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pv13m"]
+atlas = ExtResource("4_vwdyy")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lltf5"]
+atlas = ExtResource("5_3eg3v")
+region = Rect2(0, 0, 30, 30)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_o0eoh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j0u5u")
+}],
+"loop": false,
+"name": &"felicidade",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0hpa0")
+}],
+"loop": false,
+"name": &"neutro",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pv13m")
+}],
+"loop": false,
+"name": &"raiva",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lltf5")
+}],
+"loop": false,
+"name": &"tristeza",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_nlniq"]
 radius = 6.84337
@@ -77,10 +131,11 @@ size = Vector2(66, 20)
 [node name="Personagem" type="CharacterBody2D"]
 script = ExtResource("1_sl20s")
 
-[node name="Sprite" type="Sprite2D" parent="."]
+[node name="spriteplayer" type="AnimatedSprite2D" parent="."]
 z_index = 1
 scale = Vector2(2, 2)
-texture = ExtResource("2_j2gld")
+sprite_frames = SubResource("SpriteFrames_o0eoh")
+animation = &"neutro"
 
 [node name="Colisão" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)
@@ -92,7 +147,6 @@ limit_smoothed = true
 drag_horizontal_enabled = true
 
 [node name="hitboxarea" type="Area2D" parent="."]
-visible = false
 scale = Vector2(3, 2)
 
 [node name="ataquemelle" type="AnimatedSprite2D" parent="hitboxarea"]

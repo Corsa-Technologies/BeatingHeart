@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://datvdt5gcttxp"
-path="res://.godot/imported/neutro.png-2d0b10306498f33f362717c4c4197a31.ctex"
+uid="uid://dkooh1dbypiwl"
+path="res://.godot/imported/Raiva.png-1eb09ec6a7f91f55fe9b34919eb44e29.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/neutro.png"
-dest_files=["res://.godot/imported/neutro.png-2d0b10306498f33f362717c4c4197a31.ctex"]
+source_file="res://Player/emoções/Raiva.png"
+dest_files=["res://.godot/imported/Raiva.png-1eb09ec6a7f91f55fe9b34919eb44e29.ctex"]
 
 [params]
 
