@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://datvdt5gcttxp"
-path="res://.godot/imported/neutro.png-86753aec13a3c1e60477d91e2ed93350.ctex"
+uid="uid://cjdpkv8okipio"
+path="res://.godot/imported/slashes.png-46f5a0aa542d68b0d32a1b71838f838a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://neutro.png"
-dest_files=["res://.godot/imported/neutro.png-86753aec13a3c1e60477d91e2ed93350.ctex"]
+source_file="res://Player/ataques/slashes.png"
+dest_files=["res://.godot/imported/slashes.png-46f5a0aa542d68b0d32a1b71838f838a.ctex"]
 
 [params]
 
