@@ -1,9 +1,9 @@
 extends CharacterBody2D
 
-const SPEED = 200.0
+const SPEED = 100.0
 const GRAVITY = 1200.0  # Valor da gravidade
 const MAX_FALL_SPEED = 1000.0  # Velocidade máxima de queda
-const DAMAGE = 1  # Quantidade de dano que o inimigo causa
+const DAMAGE = 3  # Quantidade de dano que o inimigo causa
 
 # Referências
 @onready var detection_area = $detecção
@@ -15,7 +15,7 @@ const DAMAGE = 1  # Quantidade de dano que o inimigo causa
 var target_player: CharacterBody2D = null
 var can_follow: bool = true  # Controle para determinar se o slime pode seguir o player
 var can_damage: bool = true  # Controle para determinar se o slime pode causar dano
-var health: int = 3  # Vida inicial do inimigo
+var health: int = 5  # Vida inicial do inimigo
 
 func _ready() -> void:
 	animation_player.play("idle")

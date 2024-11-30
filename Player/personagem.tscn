@@ -1,11 +1,11 @@
 [gd_scene load_steps=38 format=3 uid="uid://chmjj3qfa4eju"]
 
-[ext_resource type="Texture2D" uid="uid://dkooh1dbypiwl" path="res://Player/emoções/Raiva.png" id="1_08l7k"]
+[ext_resource type="Texture2D" uid="uid://dkooh1dbypiwl" path="res://Player/emoções/raiva.png" id="1_08l7k"]
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_sl20s"]
 [ext_resource type="Texture2D" uid="uid://de4hxy2oyymu5" path="res://Player/emoções/Felicidade.png" id="2_bpk5d"]
 [ext_resource type="Texture2D" uid="uid://cjdpkv8okipio" path="res://Player/ataques/slashes.png" id="3_3y4oh"]
-[ext_resource type="Texture2D" uid="uid://datvdt5gcttxp" path="res://Player/emoções/Neutro.png" id="4_1q6aj"]
-[ext_resource type="Texture2D" uid="uid://bjayigm2s16mh" path="res://Player/emoções/Tristeza.png" id="5_81txk"]
+[ext_resource type="Texture2D" uid="uid://datvdt5gcttxp" path="res://Player/emoções/neutro.png" id="4_1q6aj"]
+[ext_resource type="Texture2D" uid="uid://bjayigm2s16mh" path="res://Player/emoções/tristeza.png" id="5_81txk"]
 [ext_resource type="PackedScene" uid="uid://cjptg3s2ybvqu" path="res://UI/vida/vidaplayer.tscn" id="7_udtkm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nnrnt"]
@@ -281,7 +281,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gn3b3"]
-size = Vector2(50.6667, 20)
+size = Vector2(50.6667, 34)
 
 [node name="Personagem" type="CharacterBody2D"]
 script = ExtResource("1_sl20s")
@@ -305,6 +305,8 @@ drag_horizontal_enabled = true
 [node name="hitboxarea" type="Area2D" parent="."]
 position = Vector2(-1, 16)
 scale = Vector2(3, 2)
+collision_layer = 3
+collision_mask = 3
 
 [node name="ataquemelle" type="AnimatedSprite2D" parent="hitboxarea"]
 position = Vector2(2.41103, 1.15749)
@@ -316,7 +318,7 @@ frame = 7
 frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitboxarea"]
-position = Vector2(15.3333, 0)
+position = Vector2(15.3333, 1.5)
 shape = SubResource("RectangleShape2D_gn3b3")
 
 [node name="PlayerUI" parent="." instance=ExtResource("7_udtkm")]
@@ -324,5 +326,6 @@ shape = SubResource("RectangleShape2D_gn3b3")
 [node name="life_regeneration_timer" type="Timer" parent="."]
 autostart = true
 
+[connection signal="body_entered" from="hitboxarea" to="." method="_on_hitboxarea_body_entered"]
 [connection signal="animation_finished" from="hitboxarea/ataquemelle" to="." method="_on_ataquemelle_animation_finished"]
 [connection signal="timeout" from="life_regeneration_timer" to="." method="_on_life_regeneration_timer_timeout"]

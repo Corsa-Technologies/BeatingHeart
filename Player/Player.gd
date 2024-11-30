@@ -10,7 +10,7 @@ var current_emotion: int = Emotions.NEUTRO
 # Variáveis para atributos de cada emoção
 var player_health: int = 10  # Vida do jogador (agora 10 corações)
 var max_health: int = 10     # Vida máxima (10 corações)
-var player_damage: int = 10    # Dano do jogador
+var player_damage: int = 1    # Dano do jogador
 var player_speed: float = BASE_SPEED  # Velocidade do jogador
 
 # Referências aos nodes
@@ -22,9 +22,11 @@ var player_speed: float = BASE_SPEED  # Velocidade do jogador
 # Controle da direção do player (-1 para esquerda, 1 para direita)
 var facing_direction := 1
 const HITBOX_OFFSET := 30  # Distância do hitbox em relação ao player
-
 # Estado de ataque
 var is_attacking := false
+
+# Variável para controle de inimigos já atingidos
+var enemy_hit = false
 
 func _ready() -> void:
 	# Configurações iniciais
@@ -85,6 +87,10 @@ func _physics_process(delta: float) -> void:
 			ataquemelle.play("ataque1")
 			update_emotion_animation("attack")
 
+	# Verificar se o inimigo já está na hitbox durante o ataque
+	if is_attacking:
+		check_hitbox_collision()
+
 	# Troca de emoções
 	if Input.is_action_just_pressed("neutro"):
 		set_emotion(Emotions.NEUTRO)
@@ -95,10 +101,19 @@ func _physics_process(delta: float) -> void:
 	elif Input.is_action_just_pressed("felicidade"):
 		set_emotion(Emotions.FELICIDADE)
 
+# Verifica colisões na hitbox durante o ataque
+func check_hitbox_collision():
+	for body in hitboxarea.get_overlapping_bodies():
+		if body.name != "Personagem" and body.has_method("take_damage") and not enemy_hit:
+			body.take_damage(player_damage)
+			enemy_hit = true  # Marca que o inimigo foi atingido
+
+# Método para finalizar o ataque
 func _on_ataquemelle_animation_finished() -> void:
 	# Torna o hitbox invisível ao final da animação
 	hitboxarea.visible = false
 	is_attacking = false
+	enemy_hit = false  # Reseta o controle de inimigo atingido
 	update_emotion_animation("idle")
 
 func update_hitbox_position() -> void:
@@ -111,7 +126,7 @@ func set_emotion(emotion: int) -> void:
 	current_emotion = emotion
 	match emotion:
 		Emotions.NEUTRO:
-			player_damage = 10
+			player_damage = 1
 			player_speed = BASE_SPEED
 			print("Mudou para Neutro")
 		Emotions.FELICIDADE:
@@ -122,7 +137,7 @@ func set_emotion(emotion: int) -> void:
 			player_speed = 0  # Sem movimento
 			print("Mudou para Tristeza")
 		Emotions.RAIVA:
-			player_damage = 30    # Mais dano
+			player_damage = 3    # Mais dano
 			player_speed = BASE_SPEED * 0.5  # Velocidade reduzida
 			print("Mudou para Raiva")
 	# Atualiza a animação e a UI
@@ -144,12 +159,11 @@ func update_emotion_animation(action: String) -> void:
 			emotion_name = "tristeza"
 		Emotions.RAIVA:
 			emotion_name = "raiva"
-		# Corrigido: Não é necessário o caso padrão aqui
+	
 	var animation_name = emotion_name + "_" + action
 	if spriteplayer.animation != animation_name:  # Corrigido o uso de 'current_animation'
 		spriteplayer.play(animation_name)
-		
-		
+
 func _on_life_regeneration_timer_timeout() -> void:
 	if current_emotion == Emotions.TRISTEZA and player_health < max_health:
 		player_health += 1
@@ -158,7 +172,16 @@ func _on_life_regeneration_timer_timeout() -> void:
 # Função de dano
 func take_damage(amount: int) -> void:
 	player_health -= amount
-	if player_health < 0:
-		player_health = 0  # Evita valores negativos
-		get_tree()
 	health_ui.update_health_ui(player_health, max_health)
+	if player_health <= 0:
+		die()  # Lógica de morte
+		
+func die():
+	print('morri')
+
+
+func _on_hitboxarea_body_entered(body: Node2D) -> void:
+	if is_attacking and body.name == "SlimeNeutro" and body.has_method("take_damage"):
+		print(body.name)
+		print('achei o inimigo')
+		body.take_damage(player_damage)  # Causa dano baseado na variável `player_damage

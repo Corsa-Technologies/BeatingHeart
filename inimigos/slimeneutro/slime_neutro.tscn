@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://ca6syleiuf7jh"]
+[gd_scene load_steps=17 format=3 uid="uid://ca6syleiuf7jh"]
 
 [ext_resource type="Script" path="res://inimigos/slimeneutro/slime_neutro.gd" id="1_pvebd"]
 [ext_resource type="Texture2D" uid="uid://d12nemd1pjekh" path="res://inimigos/sprites/slime_idle1.png" id="1_tp8an"]
@@ -86,6 +86,9 @@ size = Vector2(20, 16)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_67soy"]
 size = Vector2(306, 20)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jlk1m"]
+size = Vector2(18, 14)
+
 [node name="SlimeNeutro" type="CharacterBody2D"]
 scale = Vector2(1.5, 1.5)
 collision_layer = 2
@@ -107,5 +110,17 @@ shape = SubResource("RectangleShape2D_5jg6r")
 position = Vector2(-7, 5)
 shape = SubResource("RectangleShape2D_67soy")
 
+[node name="hitbox" type="Area2D" parent="."]
+position = Vector2(479.681, 41.9791)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(-485.348, -37.6458)
+shape = SubResource("RectangleShape2D_jlk1m")
+
+[node name="DamageTimer" type="Timer" parent="."]
+wait_time = 0.5
+
 [connection signal="body_entered" from="detecção" to="." method="_on_detecção_body_entered"]
 [connection signal="body_exited" from="detecção" to="." method="_on_detecção_body_exited"]
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="timeout" from="DamageTimer" to="." method="_on_damage_timer_timeout"]
