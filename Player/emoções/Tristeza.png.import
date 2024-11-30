@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bjayigm2s16mh"
-path="res://.godot/imported/tristeza.png-1bca692f40f0d02e1155325ff1caec5c.ctex"
+path="res://.godot/imported/Tristeza.png-8d2f5866826ddad9f4b1003da52c720f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/emoções/tristeza.png"
-dest_files=["res://.godot/imported/tristeza.png-1bca692f40f0d02e1155325ff1caec5c.ctex"]
+source_file="res://Player/emoções/Tristeza.png"
+dest_files=["res://.godot/imported/Tristeza.png-8d2f5866826ddad9f4b1003da52c720f.ctex"]
 
 [params]
 
