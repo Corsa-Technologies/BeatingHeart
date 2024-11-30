@@ -1,7 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://u8j76th4ag42"]
+[gd_scene load_steps=8 format=4 uid="uid://u8j76th4ag42"]
 
 [ext_resource type="Texture2D" uid="uid://pmqg8os16hqu" path="res://Tileset 30x30.png" id="1_1767n"]
 [ext_resource type="PackedScene" uid="uid://chmjj3qfa4eju" path="res://Player/personagem.tscn" id="1_rs31i"]
+[ext_resource type="PackedScene" uid="uid://smtm5o6c80of" path="res://inimigos/slimefelicidade/slime_alegria.tscn" id="3_iw1o1"]
+[ext_resource type="PackedScene" uid="uid://dgwhoj2x8rjow" path="res://inimigos/slimeraiva/slime_raiva.tscn" id="4_15ikx"]
+[ext_resource type="PackedScene" uid="uid://ca6syleiuf7jh" path="res://inimigos/slimeneutro/slime_neutro.tscn" id="4_fuicv"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1lt20"]
 texture = ExtResource("1_1767n")
@@ -181,3 +184,12 @@ tile_map_data = PackedByteArray("AAD//wIAAAANAAIAAAABAAIAAAANAAIAAAACAAIAAAANAAI
 tile_set = SubResource("TileSet_14orp")
 
 [node name="Personagem" parent="." instance=ExtResource("1_rs31i")]
+
+[node name="slime_alegria" parent="." instance=ExtResource("3_iw1o1")]
+position = Vector2(-934.295, 11.1213)
+
+[node name="SlimeNeutro" parent="." instance=ExtResource("4_fuicv")]
+position = Vector2(-727.82, -20.8803)
+
+[node name="slime_raiva" parent="." instance=ExtResource("4_15ikx")]
+position = Vector2(-484.575, -52.5183)

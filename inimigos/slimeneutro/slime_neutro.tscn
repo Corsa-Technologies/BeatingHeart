@@ -90,7 +90,7 @@ size = Vector2(306, 20)
 size = Vector2(18, 14)
 
 [node name="SlimeNeutro" type="CharacterBody2D"]
-scale = Vector2(1.5, 1.5)
+scale = Vector2(1.8, 1.8)
 collision_layer = 2
 collision_mask = 2
 script = ExtResource("1_pvebd")
@@ -102,6 +102,7 @@ frame_progress = 0.485641
 
 [node name="colisão" type="CollisionShape2D" parent="."]
 position = Vector2(-6, 4)
+scale = Vector2(0.2, 1)
 shape = SubResource("RectangleShape2D_5jg6r")
 
 [node name="detecção" type="Area2D" parent="."]

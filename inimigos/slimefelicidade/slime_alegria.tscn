@@ -138,6 +138,7 @@ frame_progress = 1.0
 
 [node name="colisão" type="CollisionShape2D" parent="."]
 position = Vector2(-6, 4)
+scale = Vector2(0.2, 1)
 shape = SubResource("RectangleShape2D_wa7qu")
 
 [node name="detecção" type="Area2D" parent="."]

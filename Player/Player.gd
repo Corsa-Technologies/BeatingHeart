@@ -12,6 +12,7 @@ var player_health: int = 10  # Vida do jogador (agora 10 corações)
 var max_health: int = 10     # Vida máxima (10 corações)
 var player_damage: int = 1    # Dano do jogador
 var player_speed: float = BASE_SPEED  # Velocidade do jogador
+var player_jump: float = JUMP_VELOCITY
 
 # Referências aos nodes
 @onready var spriteplayer = $spriteplayer
@@ -54,7 +55,7 @@ func _physics_process(delta: float) -> void:
 				update_emotion_animation("jump")
 		else:
 			if Input.is_action_just_pressed("ui_up"):
-				velocity.y = JUMP_VELOCITY
+				velocity.y = player_jump
 				update_emotion_animation("jump")
 
 	# Movimentação (somente se não estiver triste)
@@ -129,9 +130,11 @@ func set_emotion(emotion: int) -> void:
 			player_damage = 1
 			player_speed = BASE_SPEED
 			print("Mudou para Neutro")
+			player_jump = JUMP_VELOCITY
 		Emotions.FELICIDADE:
 			player_damage = 0     # Menos dano
 			player_speed = BASE_SPEED * 2.0  # Mais velocidade
+			player_jump = JUMP_VELOCITY - 100
 			print("Mudou para Felicidade")
 		Emotions.TRISTEZA:
 			player_speed = 0  # Sem movimento
@@ -139,6 +142,7 @@ func set_emotion(emotion: int) -> void:
 		Emotions.RAIVA:
 			player_damage = 3    # Mais dano
 			player_speed = BASE_SPEED * 0.2  # Velocidade reduzida
+			player_jump = JUMP_VELOCITY
 			print("Mudou para Raiva")
 	# Atualiza a animação e a UI
 	health_ui.update_health_ui(player_health, max_health)
