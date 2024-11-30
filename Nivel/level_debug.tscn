@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://u8j76th4ag42"]
+[gd_scene load_steps=7 format=4 uid="uid://u8j76th4ag42"]
 
 [ext_resource type="Texture2D" uid="uid://pmqg8os16hqu" path="res://Tileset 30x30.png" id="1_1767n"]
 [ext_resource type="PackedScene" uid="uid://chmjj3qfa4eju" path="res://Player/personagem.tscn" id="1_rs31i"]
+[ext_resource type="Script" path="res://Nivel/testedanoa.gd" id="3_vqbbe"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_53umq"]
 texture = ExtResource("1_1767n")
@@ -169,6 +170,9 @@ tile_size = Vector2i(30, 30)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_53umq")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q8ex8"]
+size = Vector2(39.6809, 82.9791)
+
 [node name="Level debug" type="Node2D"]
 position = Vector2(0, 16)
 
@@ -180,3 +184,13 @@ tile_map_data = PackedByteArray("AAD//wIAAAANAAIAAAABAAIAAAANAAIAAAACAAIAAAANAAI
 tile_set = SubResource("TileSet_14orp")
 
 [node name="Personagem" parent="." instance=ExtResource("1_rs31i")]
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(479.681, 41.9791)
+script = ExtResource("3_vqbbe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-9.84045, -31.4895)
+shape = SubResource("RectangleShape2D_q8ex8")
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]

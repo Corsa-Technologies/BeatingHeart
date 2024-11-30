@@ -18,8 +18,7 @@ var player_speed: float = BASE_SPEED  # Velocidade do jogador
 @onready var hitboxarea = $hitboxarea
 @onready var ataquemelle = hitboxarea.get_node("ataquemelle")
 @onready var health_ui = $PlayerUI
-@onready var life_regeneration_timer = $life_regeneration_timer
-
+@onready var life_regeneration_timer = $life_regeneration_timer  # Timer para regeneração
 # Controle da direção do player (-1 para esquerda, 1 para direita)
 var facing_direction := 1
 const HITBOX_OFFSET := 30  # Distância do hitbox em relação ao player
@@ -32,25 +31,9 @@ func _ready() -> void:
 	hitboxarea.visible = false
 	update_hitbox_position()
 	update_emotion_animation("idle")  # Começa com a animação idle do estado neutro
-
+	life_regeneration_timer.start(1.0)
 	# Atualiza a UI de vida no início
 	health_ui.update_health_ui(player_health, max_health)
-func _process(delta: float) -> void:
-	# Verifica se a emoção atual é tristeza e realiza a regeneração
-	if current_emotion == Emotions.TRISTEZA:
-		# A regeneração só ocorre se o jogador não atingiu o máximo de vida
-		if player_health < max_health:
-			player_health += 1  # Recupera 1 coração de vida
-			health_ui.update_health_ui(player_health, max_health)  # Atualiza a UI de vida
-
-# Função de regeneração a cada segundo
-func _on_life_regeneration_timer_timeout() -> void:
-	# A cada segundo, se o jogador estiver em tristeza, recupere 1 coração de vida
-	if current_emotion == Emotions.TRISTEZA:
-		# Checa se a vida não ultrapassa o máximo
-		if player_health < max_health:
-			player_health += 1
-			health_ui.update_health_ui(player_health, max_health)  # Atualiza a UI de vida
 
 func _physics_process(delta: float) -> void:
 	# Gravidade e salto (somente se não estiver triste)
@@ -132,10 +115,10 @@ func set_emotion(emotion: int) -> void:
 			player_speed = BASE_SPEED * 2.0  # Mais velocidade
 			print("Mudou para Felicidade")
 		Emotions.TRISTEZA:
-			player_health = 2    # Menos vida
-			player_damage = 0     # Menos dano
-			player_speed = BASE_SPEED * 0.0  # Menos velocidade
+			player_health = 2    # Defina a vida no estado de tristeza
+			player_speed = BASE_SPEED * 0.0  # Sem movimento
 			print("Mudou para Tristeza")
+			health_ui.update_health_ui(player_health, max_health)
 		Emotions.RAIVA:
 			player_health = 8    # Vida média
 			player_damage = 30    # Mais dano
@@ -165,7 +148,14 @@ func update_emotion_animation(action: String) -> void:
 	var animation_name = emotion_name + "_" + action
 	if spriteplayer.animation != animation_name:  # Corrigido o uso de 'current_animation'
 		spriteplayer.play(animation_name)
-
+		
+		
+func _on_life_regeneration_timer_timeout() -> void:
+	# Verifica se a emoção é Tristeza e se a vida ainda não chegou ao máximo
+	if current_emotion == Emotions.TRISTEZA:
+		if player_health < max_health:
+			player_health += 1  # Recupera 1 ponto de vida
+			health_ui.update_health_ui(player_health, max_health)  # Atualiza a UI de vida
 # Função de dano
 func take_damage(amount: int) -> void:
 	player_health -= amount
