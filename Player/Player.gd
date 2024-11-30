@@ -1,12 +1,21 @@
 extends CharacterBody2D
 
-const SPEED = 400.0
+const BASE_SPEED = 400.0
 const JUMP_VELOCITY = -400.0
 
+# Estados emocionais
+enum Emotions { NEUTRO, FELICIDADE, TRISTEZA, RAIVA }
+var current_emotion: int = Emotions.NEUTRO
+
+# Variáveis para atributos de cada emoção
+var player_health: int = 100  # Vida do jogador
+var player_damage: int = 10    # Dano do jogador
+var player_speed: float = BASE_SPEED  # Velocidade do jogador
+
 # Referências aos nodes
+@onready var spriteplayer = $spriteplayer
 @onready var hitboxarea = $hitboxarea
 @onready var ataquemelle = hitboxarea.get_node("ataquemelle")
-@onready var spriteplayer = $spriteplayer  # Referência ao AnimatedSprite2D
 
 # Controle da direção do player (-1 para esquerda, 1 para direita)
 var facing_direction := 1
@@ -19,68 +28,118 @@ func _ready() -> void:
 	# Inicia com o hitbox invisível e na posição inicial
 	hitboxarea.visible = false
 	update_hitbox_position()
+	update_emotion_animation("idle")  # Começa com a animação idle do estado neutro
 
 func _physics_process(delta: float) -> void:
-	# Gravidade e salto
-	if not is_on_floor():
-		velocity += get_gravity() * delta
-	if Input.is_action_just_pressed("ui_up") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
+	# Gravidade e salto (somente se não estiver triste)
+	if current_emotion != Emotions.TRISTEZA:
+		if not is_on_floor():
+			velocity += get_gravity() * delta
+			if velocity.y > 0:
+				update_emotion_animation("fall")
+			else:
+				update_emotion_animation("jump")
+		else:
+			if Input.is_action_just_pressed("ui_up"):
+				velocity.y = JUMP_VELOCITY
+				update_emotion_animation("jump")
 
-	# Movimentação
-	var direction := Input.get_axis("ui_left", "ui_right")
-	if direction and not is_attacking:
-		velocity.x = direction * SPEED
-		facing_direction = sign(direction)  # Atualiza a direção do player
-		update_hitbox_position()
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
+	# Movimentação (somente se não estiver triste)
+	if current_emotion != Emotions.TRISTEZA:
+		var direction := Input.get_axis("ui_left", "ui_right")
+		if direction and not is_attacking:
+			velocity.x = direction * player_speed
+			facing_direction = sign(direction)  # Atualiza a direção do player
+			update_hitbox_position()
+			update_emotion_animation("walk")
+			
+			# Atualiza a direção do sprite para o lado correto
+			spriteplayer.flip_h = facing_direction == -1  # Espelha o sprite horizontalmente
+		else:
+			velocity.x = move_toward(velocity.x, 0, player_speed)
+			if is_on_floor() and not is_attacking:
+				update_emotion_animation("idle")
+	elif current_emotion == Emotions.TRISTEZA:
+		velocity.x = 0  # Bloqueia o movimento horizontal ao entrar em tristeza
+		if is_on_floor() and not is_attacking:
+			update_emotion_animation("idle")
 
 	move_and_slide()
 
-	# Ataque
+	# Ataque (somente se não for felicidade ou tristeza)
 	if Input.is_action_just_pressed("attack") and not is_attacking:
-		is_attacking = true
-		hitboxarea.visible = true
-		ataquemelle.play("ataque1")
+		if current_emotion != Emotions.FELICIDADE and current_emotion != Emotions.TRISTEZA:
+			is_attacking = true
+			hitboxarea.visible = true
+			ataquemelle.play("ataque1")
+			update_emotion_animation("attack")
 
-	# Troca de "personagens" usando funções dedicadas
+	# Troca de emoções
 	if Input.is_action_just_pressed("neutro"):
-		set_neutro()
-	elif Input.is_action_just_pressed("felicidade"):
-		set_felicidade()
-	elif Input.is_action_just_pressed("tristeza"):
-		set_tristeza()
+		set_emotion(Emotions.NEUTRO)
 	elif Input.is_action_just_pressed("raiva"):
-		set_raiva()
+		set_emotion(Emotions.RAIVA)
+	elif Input.is_action_just_pressed("tristeza"):
+		set_emotion(Emotions.TRISTEZA)
+	elif Input.is_action_just_pressed("felicidade"):
+		set_emotion(Emotions.FELICIDADE)
 
 func _on_ataquemelle_animation_finished() -> void:
 	# Torna o hitbox invisível ao final da animação
 	hitboxarea.visible = false
-	is_attacking = false  # Permite que o player mude de lado novamente
+	is_attacking = false
+	update_emotion_animation("idle")
 
 func update_hitbox_position() -> void:
 	# Ajusta o offset do hitbox com base na direção
 	hitboxarea.position.x = HITBOX_OFFSET * facing_direction
 	hitboxarea.scale.x = facing_direction  # Espelha o hitbox horizontalmente se necessário
 
-# Funções dedicadas para trocar de "personagem"
-func set_neutro() -> void:
-	spriteplayer.play("neutro")
-	print("Personagem alterado para Neutro.")
-	# Adicione lógica extra aqui, se necessário
+# Troca de estado emocional
+func set_emotion(emotion: int) -> void:
+	current_emotion = emotion
+	match emotion:
+		Emotions.NEUTRO:
+			player_health = 100
+			player_damage = 10
+			player_speed = BASE_SPEED
+			print("Mudou para Neutro")
+		Emotions.FELICIDADE:
+			player_health = 100  # Mais vida
+			player_damage = 0     # Menos dano
+			player_speed = BASE_SPEED * 2.0  # Mais velocidade
+			print("Mudou para Felicidade")
+		Emotions.TRISTEZA:
+			player_health = 50    # Menos vida
+			player_damage = 0     # Menos dano
+			player_speed = BASE_SPEED * 0.0  # Menos velocidade
+			print("Mudou para Tristeza")
+		Emotions.RAIVA:
+			player_health = 80    # Vida média
+			player_damage = 30    # Mais dano
+			player_speed = BASE_SPEED * 0.7  # Mais velocidade
+			print("Mudou para Raiva")
+	# Reinicia a animação para o estado atual
+	update_emotion_animation("idle")
 
-func set_felicidade() -> void:
-	spriteplayer.play("felicidade")
-	print("Personagem alterado para Felicidade.")
-	# Adicione lógica extra aqui, se necessário
-
-func set_tristeza() -> void:
-	spriteplayer.play("tristeza")
-	print("Personagem alterado para Tristeza.")
-	# Adicione lógica extra aqui, se necessário
-
-func set_raiva() -> void:
-	spriteplayer.play("raiva")
-	print("Personagem alterado para Raiva.")
-	# Adicione lógica extra aqui, se necessário
+# Atualiza a animação baseada no estado emocional e ação atual
+func update_emotion_animation(action: String) -> void:
+	if is_attacking and action != "attack":
+		return  # Não troca a animação se estiver atacando
+	
+	var emotion_name = ""
+	match current_emotion:
+		Emotions.NEUTRO:
+			emotion_name = "neutro"
+		Emotions.FELICIDADE:
+			emotion_name = "felicidade"
+		Emotions.TRISTEZA:
+			emotion_name = "tristeza"
+		Emotions.RAIVA:
+			emotion_name = "raiva"
+		_:  # Caso padrão
+			emotion_name = "neutro"
+	
+	var animation_name = emotion_name + "_" + action
+	if spriteplayer.animation != animation_name:  # Corrigido o uso de 'current_animation'
+		spriteplayer.play(animation_name)
