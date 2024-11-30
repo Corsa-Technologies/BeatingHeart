@@ -32,6 +32,7 @@ func _physics_process(delta: float) -> void:
 	if target_player and can_follow:
 		var direction = sign(target_player.global_position.x - global_position.x)
 		velocity.x = direction * SPEED
+		$AnimatedSprite2D.flip_h = direction == -1
 		animation_player.play("walk")
 	else:
 		velocity.x = 0

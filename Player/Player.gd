@@ -138,7 +138,7 @@ func set_emotion(emotion: int) -> void:
 			print("Mudou para Tristeza")
 		Emotions.RAIVA:
 			player_damage = 3    # Mais dano
-			player_speed = BASE_SPEED * 0.5  # Velocidade reduzida
+			player_speed = BASE_SPEED * 0.2  # Velocidade reduzida
 			print("Mudou para Raiva")
 	# Atualiza a animação e a UI
 	health_ui.update_health_ui(player_health, max_health)

@@ -281,13 +281,14 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gn3b3"]
-size = Vector2(50.6667, 34)
+size = Vector2(56.6667, 34)
 
 [node name="Personagem" type="CharacterBody2D"]
 script = ExtResource("1_sl20s")
 
 [node name="spriteplayer" type="AnimatedSprite2D" parent="."]
 z_index = 1
+position = Vector2(0, 3)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_o0eoh")
 animation = &"felicidade_walk"
@@ -309,16 +310,15 @@ collision_layer = 3
 collision_mask = 3
 
 [node name="ataquemelle" type="AnimatedSprite2D" parent="hitboxarea"]
-position = Vector2(2.41103, 1.15749)
+position = Vector2(2.411, 1.165)
 rotation = 0.71733
-scale = Vector2(0.303146, 0.313876)
+scale = Vector2(0.5, 0.519)
 sprite_frames = SubResource("SpriteFrames_dbcnp")
 animation = &"ataque1"
-frame = 7
-frame_progress = 1.0
+frame = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitboxarea"]
-position = Vector2(15.3333, 1.5)
+position = Vector2(18.3333, 1.5)
 shape = SubResource("RectangleShape2D_gn3b3")
 
 [node name="PlayerUI" parent="." instance=ExtResource("7_udtkm")]

@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
-const SPEED = 200.0
+const SPEED = 450.0
 const GRAVITY = 1200.0  # Valor da gravidade
-const MAX_FALL_SPEED = 1000.0  # Velocidade máxima de queda
+const MAX_FALL_SPEED = 1400.0  # Velocidade máxima de queda
 const DAMAGE = 1  # Quantidade de dano que o inimigo causa
 
 # Referências
