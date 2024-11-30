@@ -1,0 +1,67 @@
+[gd_scene load_steps=4 format=3 uid="uid://cjptg3s2ybvqu"]
+
+[ext_resource type="Script" path="res://UI/vida/vidaplayer.gd" id="1_ksbbh"]
+[ext_resource type="Texture2D" uid="uid://cwf7t8ad0gchj" path="res://UI/vida/coracaocheio.png" id="2_hi827"]
+[ext_resource type="Texture2D" uid="uid://pt1p212q45yf" path="res://UI/vida/coracaovazio.png" id="3_pe8hd"]
+
+[node name="PlayerUI" type="CanvasLayer"]
+script = ExtResource("1_ksbbh")
+full_heart_texture = ExtResource("2_hi827")
+empty_heart_texture = ExtResource("3_pe8hd")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchors_preset = -1
+anchor_right = 0.213
+anchor_bottom = 0.056
+offset_right = 315.96
+offset_bottom = 10.68
+
+[node name="Heart1" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hi827")
+expand_mode = 2
+
+[node name="Heart2" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hi827")
+expand_mode = 2
+
+[node name="Heart3" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hi827")
+expand_mode = 2
+
+[node name="Heart4" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hi827")
+expand_mode = 2
+
+[node name="Heart5" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hi827")
+expand_mode = 2
+
+[node name="Heart6" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hi827")
+expand_mode = 2
+
+[node name="Heart7" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hi827")
+expand_mode = 2
+
+[node name="Heart8" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hi827")
+expand_mode = 2
+
+[node name="Heart9" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hi827")
+expand_mode = 2
+
+[node name="Heart10" type="TextureRect" parent="HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("2_hi827")
+expand_mode = 2
