@@ -27,17 +27,23 @@ const HITBOX_OFFSET := 30  # Distância do hitbox em relação ao player
 var is_attacking := false
 
 func _ready() -> void:
-	# Inicia com o hitbox invisível e na posição inicial
+	# Configurações iniciais
 	hitboxarea.visible = false
 	update_hitbox_position()
-	update_emotion_animation("idle")  # Começa com a animação idle do estado neutro
+	update_emotion_animation("idle")
 	life_regeneration_timer.start(1.0)
-	# Atualiza a UI de vida no início
 	health_ui.update_health_ui(player_health, max_health)
 
 func _physics_process(delta: float) -> void:
-	# Gravidade e salto (somente se não estiver triste)
-	if current_emotion != Emotions.TRISTEZA:
+	# Gravidade e salto
+	if current_emotion == Emotions.TRISTEZA:
+		# Permitir apenas a gravidade afetar a descida
+		if not is_on_floor():
+			velocity += get_gravity() * delta
+		else:
+			velocity.y = 0  # Para de aplicar a gravidade ao atingir o chão
+	else:
+		# Lógica de gravidade e salto para outros estados emocionais
 		if not is_on_floor():
 			velocity += get_gravity() * delta
 			if velocity.y > 0:
@@ -105,28 +111,22 @@ func set_emotion(emotion: int) -> void:
 	current_emotion = emotion
 	match emotion:
 		Emotions.NEUTRO:
-			player_health = 10
 			player_damage = 10
 			player_speed = BASE_SPEED
 			print("Mudou para Neutro")
 		Emotions.FELICIDADE:
-			player_health = 5  # Mais vida
 			player_damage = 0     # Menos dano
 			player_speed = BASE_SPEED * 2.0  # Mais velocidade
 			print("Mudou para Felicidade")
 		Emotions.TRISTEZA:
-			player_health = 2    # Defina a vida no estado de tristeza
-			player_speed = BASE_SPEED * 0.0  # Sem movimento
+			player_speed = 0  # Sem movimento
 			print("Mudou para Tristeza")
-			health_ui.update_health_ui(player_health, max_health)
 		Emotions.RAIVA:
-			player_health = 8    # Vida média
 			player_damage = 30    # Mais dano
-			player_speed = BASE_SPEED * 0.5  # Mais velocidade
+			player_speed = BASE_SPEED * 0.5  # Velocidade reduzida
 			print("Mudou para Raiva")
-	# Atualiza a UI de vida toda vez que mudar a emoção
+	# Atualiza a animação e a UI
 	health_ui.update_health_ui(player_health, max_health)
-	# Reinicia a animação para o estado atual
 	update_emotion_animation("idle")
 
 # Atualiza a animação baseada no estado emocional e ação atual
@@ -151,15 +151,14 @@ func update_emotion_animation(action: String) -> void:
 		
 		
 func _on_life_regeneration_timer_timeout() -> void:
-	# Verifica se a emoção é Tristeza e se a vida ainda não chegou ao máximo
-	if current_emotion == Emotions.TRISTEZA:
-		if player_health < max_health:
-			player_health += 1  # Recupera 1 ponto de vida
-			health_ui.update_health_ui(player_health, max_health)  # Atualiza a UI de vida
+	if current_emotion == Emotions.TRISTEZA and player_health < max_health:
+		player_health += 1
+		health_ui.update_health_ui(player_health, max_health)
+
 # Função de dano
 func take_damage(amount: int) -> void:
 	player_health -= amount
 	if player_health < 0:
-		player_health = 0  # Garante que a vida não fique negativa
-	# Atualiza a UI de vida
+		player_health = 0  # Evita valores negativos
+		get_tree()
 	health_ui.update_health_ui(player_health, max_health)

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dkooh1dbypiwl"
-path="res://.godot/imported/raiva.png-e4184f9300964b334e4aba4a550c95e5.ctex"
+uid="uid://coo18a4tofqpk"
+path="res://.godot/imported/slime_hit.png-cf8aef89819e6910426ffee81e42fa71.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Player/emoções/raiva.png"
-dest_files=["res://.godot/imported/raiva.png-e4184f9300964b334e4aba4a550c95e5.ctex"]
+source_file="res://inimigos/sprites/slime_hit.png"
+dest_files=["res://.godot/imported/slime_hit.png-cf8aef89819e6910426ffee81e42fa71.ctex"]
 
 [params]
 

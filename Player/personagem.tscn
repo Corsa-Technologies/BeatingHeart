@@ -325,3 +325,4 @@ shape = SubResource("RectangleShape2D_gn3b3")
 autostart = true
 
 [connection signal="animation_finished" from="hitboxarea/ataquemelle" to="." method="_on_ataquemelle_animation_finished"]
+[connection signal="timeout" from="life_regeneration_timer" to="." method="_on_life_regeneration_timer_timeout"]
