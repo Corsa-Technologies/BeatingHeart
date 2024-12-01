@@ -1,10 +1,8 @@
-[gd_scene load_steps=8 format=4 uid="uid://u8j76th4ag42"]
+[gd_scene load_steps=7 format=4 uid="uid://u8j76th4ag42"]
 
 [ext_resource type="Texture2D" uid="uid://pmqg8os16hqu" path="res://Tileset 30x30.png" id="1_1767n"]
 [ext_resource type="PackedScene" uid="uid://chmjj3qfa4eju" path="res://Player/personagem.tscn" id="1_rs31i"]
-[ext_resource type="PackedScene" uid="uid://smtm5o6c80of" path="res://inimigos/slimefelicidade/slime_alegria.tscn" id="3_iw1o1"]
-[ext_resource type="PackedScene" uid="uid://dgwhoj2x8rjow" path="res://inimigos/slimeraiva/slime_raiva.tscn" id="4_15ikx"]
-[ext_resource type="PackedScene" uid="uid://ca6syleiuf7jh" path="res://inimigos/slimeneutro/slime_neutro.tscn" id="4_fuicv"]
+[ext_resource type="PackedScene" uid="uid://bwjgjkejglouf" path="res://inimigos/slimetristeza/slime_tristeza.tscn" id="3_7m358"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1lt20"]
 texture = ExtResource("1_1767n")
@@ -173,6 +171,9 @@ physics_layer_0/collision_layer = 3
 physics_layer_0/collision_mask = 6
 sources/0 = SubResource("TileSetAtlasSource_1lt20")
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sck06"]
+load_path = "res://.godot/imported/awesomeCavePixelArt.png-9258e07bafe2136fd80d522c25fa1f89.ctex"
+
 [node name="Level debug" type="Node2D"]
 position = Vector2(0, 16)
 
@@ -185,11 +186,17 @@ tile_set = SubResource("TileSet_14orp")
 
 [node name="Personagem" parent="." instance=ExtResource("1_rs31i")]
 
-[node name="slime_alegria" parent="." instance=ExtResource("3_iw1o1")]
-position = Vector2(-934.295, 11.1213)
+[node name="slime_tristeza" parent="." instance=ExtResource("3_7m358")]
+position = Vector2(-658.527, -111.43)
 
-[node name="SlimeNeutro" parent="." instance=ExtResource("4_fuicv")]
-position = Vector2(-727.82, -20.8803)
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+scroll_limit_end = Vector2(0, 720)
 
-[node name="slime_raiva" parent="." instance=ExtResource("4_15ikx")]
-position = Vector2(-484.575, -52.5183)
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2(0.1, 1)
+motion_mirroring = Vector2(1400, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
+scale = Vector2(1.5, 1.5)
+texture = SubResource("CompressedTexture2D_sck06")
+centered = false

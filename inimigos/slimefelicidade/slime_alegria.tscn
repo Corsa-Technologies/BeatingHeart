@@ -132,9 +132,8 @@ script = ExtResource("1_wdnbg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_vm3vd")
-animation = &"walk"
-frame = 6
-frame_progress = 1.0
+animation = &"idle"
+frame_progress = 0.814779
 
 [node name="colisão" type="CollisionShape2D" parent="."]
 position = Vector2(-6, 4)

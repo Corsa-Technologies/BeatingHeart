@@ -1,11 +1,11 @@
 [gd_scene load_steps=38 format=3 uid="uid://chmjj3qfa4eju"]
 
-[ext_resource type="Texture2D" uid="uid://dkooh1dbypiwl" path="res://Player/emoções/Raiva.png" id="1_08l7k"]
+[ext_resource type="Texture2D" uid="uid://dkooh1dbypiwl" path="res://Player/emoções/raiva.png" id="1_08l7k"]
 [ext_resource type="Script" path="res://Player/Player.gd" id="1_sl20s"]
 [ext_resource type="Texture2D" uid="uid://de4hxy2oyymu5" path="res://Player/emoções/Felicidade.png" id="2_bpk5d"]
 [ext_resource type="Texture2D" uid="uid://cjdpkv8okipio" path="res://Player/ataques/slashes.png" id="3_3y4oh"]
-[ext_resource type="Texture2D" uid="uid://datvdt5gcttxp" path="res://Player/emoções/Neutro.png" id="4_1q6aj"]
-[ext_resource type="Texture2D" uid="uid://bjayigm2s16mh" path="res://Player/emoções/Tristeza.png" id="5_81txk"]
+[ext_resource type="Texture2D" uid="uid://datvdt5gcttxp" path="res://Player/emoções/neutro.png" id="4_1q6aj"]
+[ext_resource type="Texture2D" uid="uid://bjayigm2s16mh" path="res://Player/emoções/tristeza.png" id="5_81txk"]
 [ext_resource type="PackedScene" uid="uid://cjptg3s2ybvqu" path="res://UI/vida/vidaplayer.tscn" id="7_udtkm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nnrnt"]
@@ -310,6 +310,7 @@ collision_layer = 3
 collision_mask = 3
 
 [node name="ataquemelle" type="AnimatedSprite2D" parent="hitboxarea"]
+z_index = 1
 position = Vector2(2.411, 1.165)
 rotation = 0.71733
 scale = Vector2(0.5, 0.519)

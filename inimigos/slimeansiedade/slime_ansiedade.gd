@@ -1,0 +1,79 @@
+extends CharacterBody2D
+
+const SPEED = 3000.0
+const GRAVITY = 0  # Valor da gravidade
+const MAX_FALL_SPEED = 0  # Velocidade máxima de queda
+const DAMAGE = 5  # Quantidade de dano que o inimigo causa
+
+# Referências
+@onready var detection_area = $detecção
+@onready var animation_player = $AnimatedSprite2D
+@onready var hitbox = $hitbox  # Referência à área de dano do inimigo
+@onready var damage_timer = $DamageTimer  # Timer para cooldown de dano e perseguição
+
+# Variáveis de controle
+var target_player: CharacterBody2D = null
+var can_follow: bool = true  # Controle para determinar se o slime pode seguir o player
+var can_damage: bool = true  # Controle para determinar se o slime pode causar dano
+var health: int = 3  # Vida inicial do inimigo
+
+func _ready() -> void:
+	animation_player.play("idle")
+
+func _physics_process(delta: float) -> void:
+	# Aplicar gravidade
+	if not is_on_floor():  # Limita a velocidade máxima de queda
+		velocity.y = 0  # Para a gravidade quando no chão
+
+	# Movimentação em direção ao player, se detectado e permitido
+	if target_player and can_follow:
+		var direction = sign(target_player.global_position.x - global_position.x)
+		velocity.x = direction * SPEED
+		$AnimatedSprite2D.flip_h = direction == -1
+		animation_player.play("walk")
+	else:
+		velocity.x = 0
+		animation_player.play("idle")
+
+	# Movimenta o inimigo
+	move_and_slide()
+
+# Chamado quando o player entra na área de detecção
+func _on_detecção_body_entered(body: Node):
+	if body.name == "Personagem":  # Certifique-se de que o nome do player é "Personagem"
+		target_player = body
+
+# Chamado quando o player sai da área de detecção
+func _on_detecção_body_exited(body: Node):
+	if body == target_player:
+		target_player = null
+
+# Chamado quando o hitbox detecta o player
+func _on_hitbox_body_entered(body: Node):
+	if body.name == "Personagem" and body.has_method("take_damage") and can_damage:
+		body.take_damage(DAMAGE)  # Causa dano no player
+		_stop_following()  # Interrompe a perseguição temporariamente
+		_start_damage_cooldown()  # Inicia cooldown para o próximo dano
+
+# Função para parar de seguir o player
+func _stop_following() -> void:
+	can_follow = false
+	damage_timer.start()  # Inicia o timer para voltar a seguir o player
+
+# Função para iniciar cooldown de dano
+func _start_damage_cooldown():
+	can_damage = false
+	damage_timer.start()  # Usa o mesmo timer para gerenciar o cooldown de dano
+
+# Chamado quando o timer termina
+func _on_damage_timer_timeout():
+	can_follow = true  # Permite seguir o player novamente
+	can_damage = true  # Permite causar dano novamente
+	
+func take_damage(player_damage: int):
+	health -= player_damage
+	if health <= 0:
+		die()
+	
+func die():
+	queue_free()

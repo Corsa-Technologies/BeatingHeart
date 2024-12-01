@@ -133,8 +133,8 @@ func set_emotion(emotion: int) -> void:
 			player_jump = JUMP_VELOCITY
 		Emotions.FELICIDADE:
 			player_damage = 0     # Menos dano
-			player_speed = BASE_SPEED * 2.0  # Mais velocidade
-			player_jump = JUMP_VELOCITY - 100
+			player_speed = BASE_SPEED # Mais velocidade
+			player_jump = JUMP_VELOCITY - 300
 			print("Mudou para Felicidade")
 		Emotions.TRISTEZA:
 			player_speed = 0  # Sem movimento

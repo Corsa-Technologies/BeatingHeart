@@ -1,0 +1,129 @@
+[gd_scene load_steps=17 format=3 uid="uid://cuvg6eb1obdod"]
+
+[ext_resource type="Script" path="res://inimigos/slimeansiedade/slime_ansiedade.gd" id="1_uv70a"]
+[ext_resource type="Texture2D" uid="uid://d12nemd1pjekh" path="res://inimigos/sprites/slime_idle1.png" id="2_24alc"]
+[ext_resource type="Texture2D" uid="uid://dmajnvj682f58" path="res://inimigos/sprites/slime_move.png" id="3_kancb"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6fgge"]
+atlas = ExtResource("2_24alc")
+region = Rect2(0, 144, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fsnbt"]
+atlas = ExtResource("2_24alc")
+region = Rect2(80, 144, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qwtwu"]
+atlas = ExtResource("3_kancb")
+region = Rect2(0, 144, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x1agb"]
+atlas = ExtResource("3_kancb")
+region = Rect2(80, 144, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pvgyi"]
+atlas = ExtResource("3_kancb")
+region = Rect2(160, 144, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8ly1"]
+atlas = ExtResource("3_kancb")
+region = Rect2(240, 144, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gx7k3"]
+atlas = ExtResource("3_kancb")
+region = Rect2(320, 144, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3p6ei"]
+atlas = ExtResource("3_kancb")
+region = Rect2(400, 144, 80, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hytvl"]
+atlas = ExtResource("3_kancb")
+region = Rect2(480, 144, 80, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_maau8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6fgge")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fsnbt")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 18.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qwtwu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x1agb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pvgyi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8ly1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gx7k3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3p6ei")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hytvl")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 17.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6vn8b"]
+size = Vector2(20, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6j7ke"]
+size = Vector2(306, 8.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_02vg6"]
+size = Vector2(18, 14)
+
+[node name="slime_ansiedade" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_uv70a")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-18, 20)
+rotation = -3.14159
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_maau8")
+animation = &"walk"
+
+[node name="colisão" type="CollisionShape2D" parent="."]
+position = Vector2(-6, 4)
+scale = Vector2(0.2, 1)
+shape = SubResource("RectangleShape2D_6vn8b")
+
+[node name="detecção" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="detecção"]
+position = Vector2(-7, 12.5)
+scale = Vector2(3, 4)
+shape = SubResource("RectangleShape2D_6j7ke")
+
+[node name="hitbox" type="Area2D" parent="."]
+position = Vector2(479.681, 41.9791)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(-485.348, -37.6458)
+shape = SubResource("RectangleShape2D_02vg6")
+
+[node name="DamageTimer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="body_entered" from="detecção" to="." method="_on_detecção_body_entered"]
+[connection signal="body_exited" from="detecção" to="." method="_on_detecção_body_exited"]
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="timeout" from="DamageTimer" to="." method="_on_damage_timer_timeout"]
