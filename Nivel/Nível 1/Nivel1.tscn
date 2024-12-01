@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=4 uid="uid://46fckqh0wbyo"]
+[gd_scene load_steps=12 format=4 uid="uid://46fckqh0wbyo"]
 
 [ext_resource type="PackedScene" uid="uid://chmjj3qfa4eju" path="res://Player/personagem.tscn" id="1_l3s67"]
 [ext_resource type="Texture2D" uid="uid://pmqg8os16hqu" path="res://Tileset 30x30.png" id="2_aj6bk"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ca6syleiuf7jh" path="res://inimigos/slimeneutro/slime_neutro.tscn" id="6_7tw3m"]
 [ext_resource type="Texture2D" uid="uid://t04dqinr1xme" path="res://fundo.png" id="7_cif2q"]
 [ext_resource type="PackedScene" uid="uid://cuvg6eb1obdod" path="res://inimigos/slimeansiedade/slime_ansiedade.tscn" id="7_vxl1n"]
+[ext_resource type="Script" path="res://scritps/void.gd" id="8_io71i"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_u7xye"]
 texture = ExtResource("2_aj6bk")
@@ -230,6 +231,9 @@ physics_layer_0/collision_layer = 3
 physics_layer_0/collision_mask = 6
 sources/0 = SubResource("TileSetAtlasSource_u7xye")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e0mwf"]
+size = Vector2(1333, 73)
+
 [node name="Nivel1" type="Node2D"]
 
 [node name="Personagem" parent="." instance=ExtResource("1_l3s67")]
@@ -286,3 +290,13 @@ motion_mirroring = Vector2(1400, 0)
 scale = Vector2(3, 3)
 texture = ExtResource("7_cif2q")
 centered = false
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(2376, 1714)
+script = ExtResource("8_io71i")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(656.5, 26.5)
+shape = SubResource("RectangleShape2D_e0mwf")
+
+[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_body_entered"]
