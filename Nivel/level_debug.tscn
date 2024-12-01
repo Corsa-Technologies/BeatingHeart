@@ -1,8 +1,7 @@
-[gd_scene load_steps=7 format=4 uid="uid://u8j76th4ag42"]
+[gd_scene load_steps=6 format=4 uid="uid://u8j76th4ag42"]
 
 [ext_resource type="Texture2D" uid="uid://pmqg8os16hqu" path="res://Tileset 30x30.png" id="1_1767n"]
 [ext_resource type="PackedScene" uid="uid://chmjj3qfa4eju" path="res://Player/personagem.tscn" id="1_rs31i"]
-[ext_resource type="PackedScene" uid="uid://bwjgjkejglouf" path="res://inimigos/slimetristeza/slime_tristeza.tscn" id="3_7m358"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1lt20"]
 texture = ExtResource("1_1767n")
@@ -172,7 +171,6 @@ physics_layer_0/collision_mask = 6
 sources/0 = SubResource("TileSetAtlasSource_1lt20")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sck06"]
-load_path = "res://.godot/imported/awesomeCavePixelArt.png-9258e07bafe2136fd80d522c25fa1f89.ctex"
 
 [node name="Level debug" type="Node2D"]
 position = Vector2(0, 16)
@@ -185,9 +183,7 @@ tile_map_data = PackedByteArray("AAD//wIAAAANAAIAAAABAAIAAAANAAIAAAACAAIAAAANAAI
 tile_set = SubResource("TileSet_14orp")
 
 [node name="Personagem" parent="." instance=ExtResource("1_rs31i")]
-
-[node name="slime_tristeza" parent="." instance=ExtResource("3_7m358")]
-position = Vector2(-658.527, -111.43)
+collision_mask = 3
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 scroll_limit_end = Vector2(0, 720)
