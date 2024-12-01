@@ -11,6 +11,7 @@ const DAMAGE = 1  # Quantidade de dano que o inimigo causa
 @onready var hitbox = $hitbox  # Referência à área de dano do inimigo
 @onready var damage_timer = $DamageTimer  # Timer para cooldown de dano e perseguição
 @onready var heal_timer = $HealTimer  # Timer para gerenciar a cura periódica
+@onready var health_bar: ProgressBar = $BarradeVida
 
 # Variáveis de controle
 var target_player: CharacterBody2D = null
@@ -22,7 +23,10 @@ var max_health: int = 8  # Vida máxima do inimigo
 func _ready() -> void:
 	animation_player.play("idle")
 	heal_timer.start()  # Inicia o timer de cura
-
+	health_bar.max_value = max_health  # Define o valor máximo da barra de vida
+	health_bar.value = health  # Atualiza a barra de vida com a vida inicial
+	health_bar.visible = false
+	
 func _physics_process(delta: float) -> void:
 	# Aplicar gravidade
 	if not is_on_floor():
@@ -78,6 +82,9 @@ func _on_damage_timer_timeout():
 	
 func take_damage(player_damage: int):
 	health -= player_damage
+	health = clamp(health, 0, max_health)  # Garante que a vida não fique abaixo de 0 ou acima do máximo
+	health_bar.value = health  # Atualiza a barra de vida
+	health_bar.visible = true
 	if health <= 0:
 		die()
 	
@@ -89,4 +96,4 @@ func _on_heal_timer_timeout() -> void:
 	if health < max_health:
 		health += 2
 		health = min(health, max_health)  # Garante que a vida não ultrapasse o máximo
-		print(health)
+		health_bar.value = health

@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://dgwhoj2x8rjow"]
+[gd_scene load_steps=24 format=3 uid="uid://dgwhoj2x8rjow"]
 
 [ext_resource type="Script" path="res://inimigos/slimeraiva/slime_raiva.gd" id="1_1p5g8"]
 [ext_resource type="Texture2D" uid="uid://dpvib1bqmowl4" path="res://inimigos/sprites/slime_idle3.png" id="2_irfhe"]
@@ -124,16 +124,20 @@ size = Vector2(306, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_s6q77"]
 size = Vector2(18, 14)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dv54d"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yj6b"]
+bg_color = Color(0.964706, 0, 0, 1)
+
 [node name="slime_raiva" type="CharacterBody2D"]
-scale = Vector2(2, 2)
+scale = Vector2(2.2, 2.2)
 collision_layer = 2
-collision_mask = 2
 script = ExtResource("1_1p5g8")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_c51mu")
-animation = &"idle"
-frame_progress = 0.659362
+animation = &"walk"
 
 [node name="colisão" type="CollisionShape2D" parent="."]
 position = Vector2(-6, 4)
@@ -155,6 +159,16 @@ shape = SubResource("RectangleShape2D_s6q77")
 
 [node name="DamageTimer" type="Timer" parent="."]
 wait_time = 0.5
+
+[node name="BarradeVida" type="ProgressBar" parent="."]
+offset_left = -21.0
+offset_top = -12.0
+offset_right = 9.0
+offset_bottom = -7.0
+theme_override_styles/background = SubResource("StyleBoxFlat_dv54d")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3yj6b")
+max_value = 5.0
+show_percentage = false
 
 [connection signal="body_entered" from="detecção" to="." method="_on_detecção_body_entered"]
 [connection signal="body_exited" from="detecção" to="." method="_on_detecção_body_exited"]

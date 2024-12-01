@@ -20,6 +20,7 @@ var player_jump: float = JUMP_VELOCITY
 @onready var ataquemelle = hitboxarea.get_node("ataquemelle")
 @onready var health_ui = $PlayerUI
 @onready var life_regeneration_timer = $life_regeneration_timer  # Timer para regeneração
+@onready var player_ui_sprite = $PlayerUI/AnimatedSprite2D
 # Controle da direção do player (-1 para esquerda, 1 para direita)
 var facing_direction := 1
 const HITBOX_OFFSET := 30  # Distância do hitbox em relação ao player
@@ -54,13 +55,13 @@ func _physics_process(delta: float) -> void:
 			else:
 				update_emotion_animation("jump")
 		else:
-			if Input.is_action_just_pressed("ui_up"):
+			if Input.is_action_just_pressed("Up"):
 				velocity.y = player_jump
 				update_emotion_animation("jump")
 
 	# Movimentação (somente se não estiver triste)
 	if current_emotion != Emotions.TRISTEZA:
-		var direction := Input.get_axis("ui_left", "ui_right")
+		var direction := Input.get_axis("Left", "Right")
 		if direction and not is_attacking:
 			velocity.x = direction * player_speed
 			facing_direction = sign(direction)  # Atualiza a direção do player
@@ -94,12 +95,16 @@ func _physics_process(delta: float) -> void:
 
 	# Troca de emoções
 	if Input.is_action_just_pressed("neutro"):
+		player_ui_sprite.play("neutro")
 		set_emotion(Emotions.NEUTRO)
 	elif Input.is_action_just_pressed("raiva"):
+		player_ui_sprite.play("raiva")
 		set_emotion(Emotions.RAIVA)
 	elif Input.is_action_just_pressed("tristeza"):
+		player_ui_sprite.play("tristeza")
 		set_emotion(Emotions.TRISTEZA)
 	elif Input.is_action_just_pressed("felicidade"):
+		player_ui_sprite.play("felicidade")
 		set_emotion(Emotions.FELICIDADE)
 
 # Verifica colisões na hitbox durante o ataque
@@ -181,11 +186,12 @@ func take_damage(amount: int) -> void:
 		die()  # Lógica de morte
 		
 func die():
+	get_tree().reload_current_scene()
 	print('morri')
 
 
 func _on_hitboxarea_body_entered(body: Node2D) -> void:
-	if is_attacking and body.name == "SlimeNeutro" and body.has_method("take_damage"):
+	if is_attacking and body.name != "Personagem" and body.has_method("take_damage"):
 		print(body.name)
 		print('achei o inimigo')
 		body.take_damage(player_damage)  # Causa dano baseado na variável `player_damage

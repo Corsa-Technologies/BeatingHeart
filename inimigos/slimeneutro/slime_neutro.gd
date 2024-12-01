@@ -10,15 +10,20 @@ const DAMAGE = 1  # Quantidade de dano que o inimigo causa
 @onready var animation_player = $AnimatedSprite2D
 @onready var hitbox = $hitbox  # Referência à área de dano do inimigo
 @onready var damage_timer = $DamageTimer  # Timer para cooldown de dano e perseguição
+@onready var health_bar: ProgressBar = $BarradeVida
 
 # Variáveis de controle
 var target_player: CharacterBody2D = null
 var can_follow: bool = true  # Controle para determinar se o slime pode seguir o player
 var can_damage: bool = true  # Controle para determinar se o slime pode causar dano
-var health: int = 3  # Vida inicial do inimigo
+var max_health: int = 4  # Vida máxima do inimigo
+var health: int = max_health  # Vida inicial do inimigo
 
 func _ready() -> void:
 	animation_player.play("idle")
+	health_bar.max_value = max_health  # Define o valor máximo da barra de vida
+	health_bar.value = health  # Atualiza a barra de vida com a vida inicial
+	health_bar.visible = false
 
 func _physics_process(delta: float) -> void:
 	# Aplicar gravidade
@@ -72,11 +77,16 @@ func _start_damage_cooldown():
 func _on_damage_timer_timeout():
 	can_follow = true  # Permite seguir o player novamente
 	can_damage = true  # Permite causar dano novamente
-	
+
+# Chamado quando o inimigo toma dano
 func take_damage(player_damage: int):
 	health -= player_damage
+	health = clamp(health, 0, max_health)  # Garante que a vida não fique abaixo de 0 ou acima do máximo
+	health_bar.value = health  # Atualiza a barra de vida
+	health_bar.visible = true
 	if health <= 0:
 		die()
-	
+
+# Chamado quando o inimigo morre
 func die():
 	queue_free()

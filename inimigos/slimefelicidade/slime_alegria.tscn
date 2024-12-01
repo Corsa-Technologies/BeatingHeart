@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://smtm5o6c80of"]
+[gd_scene load_steps=24 format=3 uid="uid://smtm5o6c80of"]
 
 [ext_resource type="Script" path="res://inimigos/slimefelicidade/slime_alegria.gd" id="1_wdnbg"]
 [ext_resource type="Texture2D" uid="uid://bgxobrbb2lcf3" path="res://inimigos/sprites/slime_idle2.png" id="2_caajh"]
@@ -124,10 +124,16 @@ size = Vector2(306, 20)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_15a3k"]
 size = Vector2(18, 14)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t2aj2"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3dtl2"]
+bg_color = Color(0.964706, 0, 0, 1)
+
 [node name="slime_alegria" type="CharacterBody2D"]
 scale = Vector2(2, 2)
-collision_layer = 2
-collision_mask = 2
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_wdnbg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -155,6 +161,16 @@ shape = SubResource("RectangleShape2D_15a3k")
 
 [node name="DamageTimer" type="Timer" parent="."]
 wait_time = 0.5
+
+[node name="BarradeVida" type="ProgressBar" parent="."]
+offset_left = -21.0
+offset_top = -12.0
+offset_right = 9.0
+offset_bottom = -7.0
+theme_override_styles/background = SubResource("StyleBoxFlat_t2aj2")
+theme_override_styles/fill = SubResource("StyleBoxFlat_3dtl2")
+max_value = 3.0
+show_percentage = false
 
 [connection signal="body_entered" from="detecção" to="." method="_on_detecção_body_entered"]
 [connection signal="body_exited" from="detecção" to="." method="_on_detecção_body_exited"]

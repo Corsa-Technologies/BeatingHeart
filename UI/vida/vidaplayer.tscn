@@ -1,10 +1,68 @@
-[gd_scene load_steps=4 format=3 uid="uid://cjptg3s2ybvqu"]
+[gd_scene load_steps=14 format=3 uid="uid://cjptg3s2ybvqu"]
 
 [ext_resource type="Script" path="res://UI/vida/vidaplayer.gd" id="1_ksbbh"]
 [ext_resource type="Texture2D" uid="uid://cwf7t8ad0gchj" path="res://UI/vida/coracaocheio.png" id="2_hi827"]
 [ext_resource type="Texture2D" uid="uid://pt1p212q45yf" path="res://UI/vida/coracaovazio.png" id="3_pe8hd"]
+[ext_resource type="Texture2D" uid="uid://bobcy56wpnqtb" path="res://UI/Felicidade.png" id="4_1ctnx"]
+[ext_resource type="Texture2D" uid="uid://xwlcw5nvmnll" path="res://UI/neutro.png" id="5_kv3y4"]
+[ext_resource type="Texture2D" uid="uid://sp7jhhm6un2s" path="res://UI/raiva.png" id="6_bjcgi"]
+[ext_resource type="Texture2D" uid="uid://bcb3e470kkudh" path="res://UI/tristeza.png" id="7_703ek"]
+[ext_resource type="Texture2D" uid="uid://b865qmd151xrf" path="res://UI/Botoes.png" id="8_032pr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71bgf"]
+atlas = ExtResource("4_1ctnx")
+region = Rect2(0, 0, 70, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dprfr"]
+atlas = ExtResource("5_kv3y4")
+region = Rect2(0, 0, 70, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r84vy"]
+atlas = ExtResource("6_bjcgi")
+region = Rect2(0, 0, 70, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4fq7e"]
+atlas = ExtResource("7_703ek")
+region = Rect2(0, 0, 70, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hye28"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71bgf")
+}],
+"loop": false,
+"name": &"felicidade",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dprfr")
+}],
+"loop": false,
+"name": &"neutro",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r84vy")
+}],
+"loop": false,
+"name": &"raiva",
+"speed": 0.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4fq7e")
+}],
+"loop": false,
+"name": &"tristeza",
+"speed": 0.0
+}]
 
 [node name="PlayerUI" type="CanvasLayer"]
+scale = Vector2(1.3, 1.3)
+transform = Transform2D(1.3, 0, 0, 1.3, 0, 0)
 script = ExtResource("1_ksbbh")
 full_heart_texture = ExtResource("2_hi827")
 empty_heart_texture = ExtResource("3_pe8hd")
@@ -13,8 +71,11 @@ empty_heart_texture = ExtResource("3_pe8hd")
 anchors_preset = -1
 anchor_right = 0.213
 anchor_bottom = 0.056
-offset_right = 315.96
-offset_bottom = 10.68
+offset_left = 195.0
+offset_top = 26.0
+offset_right = 510.96
+offset_bottom = 36.68
+scale = Vector2(0.7, 0.7)
 
 [node name="Heart1" type="TextureRect" parent="HBoxContainer"]
 layout_mode = 2
@@ -65,3 +126,14 @@ expand_mode = 2
 layout_mode = 2
 texture = ExtResource("2_hi827")
 expand_mode = 2
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(99, 85)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_hye28")
+animation = &"tristeza"
+
+[node name="Botoes" type="Sprite2D" parent="."]
+position = Vector2(1331.54, 75.3846)
+scale = Vector2(2, 2)
+texture = ExtResource("8_032pr")

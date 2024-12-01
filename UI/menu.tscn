@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://oa7vi1bnbifm"]
+
+[ext_resource type="Texture2D" uid="uid://uh1t6uti6afc" path="res://UI/Menu1.png" id="1_h844p"]
+[ext_resource type="Script" path="res://UI/menu.gd" id="1_w1rjw"]
+[ext_resource type="Texture2D" uid="uid://prbh5kr3dtd3" path="res://UI/texto (1).png" id="3_ffw42"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_w1rjw")
+
+[node name="Menu1" type="Sprite2D" parent="."]
+position = Vector2(961, 541)
+texture = ExtResource("1_h844p")
+
+[node name="texto" type="Sprite2D" parent="."]
+position = Vector2(960, 540)
+texture = ExtResource("3_ffw42")

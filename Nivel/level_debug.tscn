@@ -1,7 +1,13 @@
-[gd_scene load_steps=6 format=4 uid="uid://u8j76th4ag42"]
+[gd_scene load_steps=11 format=4 uid="uid://u8j76th4ag42"]
 
 [ext_resource type="Texture2D" uid="uid://pmqg8os16hqu" path="res://Tileset 30x30.png" id="1_1767n"]
 [ext_resource type="PackedScene" uid="uid://chmjj3qfa4eju" path="res://Player/personagem.tscn" id="1_rs31i"]
+[ext_resource type="PackedScene" uid="uid://dgwhoj2x8rjow" path="res://inimigos/slimeraiva/slime_raiva.tscn" id="3_ua111"]
+[ext_resource type="PackedScene" uid="uid://ca6syleiuf7jh" path="res://inimigos/slimeneutro/slime_neutro.tscn" id="4_git1t"]
+[ext_resource type="PackedScene" uid="uid://smtm5o6c80of" path="res://inimigos/slimefelicidade/slime_alegria.tscn" id="5_ba8bb"]
+[ext_resource type="PackedScene" uid="uid://bwjgjkejglouf" path="res://inimigos/slimetristeza/slime_tristeza.tscn" id="6_tycil"]
+[ext_resource type="Texture2D" uid="uid://u2dpn6siu6ji" path="res://Cenario.png" id="7_7xvqk"]
+[ext_resource type="PackedScene" uid="uid://orf0bcq5pyy4" path="res://inimigos/chefe/coracaomaluco.tscn" id="8_g614b"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1lt20"]
 texture = ExtResource("1_1767n")
@@ -170,8 +176,6 @@ physics_layer_0/collision_layer = 3
 physics_layer_0/collision_mask = 6
 sources/0 = SubResource("TileSetAtlasSource_1lt20")
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sck06"]
-
 [node name="Level debug" type="Node2D"]
 position = Vector2(0, 16)
 
@@ -183,16 +187,29 @@ tile_map_data = PackedByteArray("AAD//wIAAAANAAIAAAABAAIAAAANAAIAAAACAAIAAAANAAI
 tile_set = SubResource("TileSet_14orp")
 
 [node name="Personagem" parent="." instance=ExtResource("1_rs31i")]
-collision_mask = 3
+
+[node name="slime_raiva" parent="." instance=ExtResource("3_ua111")]
+position = Vector2(-266.104, -27.9245)
+
+[node name="SlimeNeutro" parent="." instance=ExtResource("4_git1t")]
+position = Vector2(-395, -104)
+
+[node name="slime_alegria" parent="." instance=ExtResource("5_ba8bb")]
+position = Vector2(-755, -8)
+
+[node name="slime_tristeza" parent="." instance=ExtResource("6_tycil")]
+position = Vector2(-858, 27)
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
-scroll_limit_end = Vector2(0, 720)
+scroll_limit_begin = Vector2(1, 0)
+scroll_limit_end = Vector2(0, 1200)
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2(0.1, 1)
-motion_mirroring = Vector2(1400, 0)
+motion_mirroring = Vector2(2400, 0)
 
 [node name="Sprite2D" type="Sprite2D" parent="ParallaxBackground/ParallaxLayer"]
-scale = Vector2(1.5, 1.5)
-texture = SubResource("CompressedTexture2D_sck06")
+texture = ExtResource("7_7xvqk")
 centered = false
+
+[node name="coracaomaluco" parent="." instance=ExtResource("8_g614b")]
+position = Vector2(294, -108)

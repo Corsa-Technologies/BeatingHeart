@@ -1,0 +1,101 @@
+[gd_scene load_steps=13 format=3 uid="uid://orf0bcq5pyy4"]
+
+[ext_resource type="Script" path="res://inimigos/chefe/coracaomaluco.gd" id="1_8tld3"]
+[ext_resource type="Texture2D" uid="uid://ctpyg4u4lt6g7" path="res://inimigos/chefe/chefe 172x213.png" id="1_575cy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1a0wi"]
+atlas = ExtResource("1_575cy")
+region = Rect2(0, 0, 172, 213)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_linow"]
+atlas = ExtResource("1_575cy")
+region = Rect2(172, 0, 172, 213)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67ypw"]
+atlas = ExtResource("1_575cy")
+region = Rect2(0, 426, 172, 213)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ujjd"]
+atlas = ExtResource("1_575cy")
+region = Rect2(172, 426, 172, 213)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ityr"]
+atlas = ExtResource("1_575cy")
+region = Rect2(344, 426, 172, 213)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awi6o"]
+atlas = ExtResource("1_575cy")
+region = Rect2(0, 213, 172, 213)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8oimy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1a0wi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_linow")
+}],
+"loop": true,
+"name": &"beating",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67ypw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ujjd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ityr")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awi6o")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 0.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6ip1c"]
+size = Vector2(98, 163)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vgtop"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5hl18"]
+bg_color = Color(0, 0, 0.968627, 1)
+
+[node name="coracaomaluco" type="CharacterBody2D"]
+scale = Vector2(1.8, 1.8)
+script = ExtResource("1_8tld3")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_8oimy")
+animation = &"dead"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2, 16)
+shape = SubResource("RectangleShape2D_6ip1c")
+
+[node name="BarradeVida" type="ProgressBar" parent="."]
+offset_left = -32.0
+offset_top = -24.0
+offset_right = 30.0
+offset_bottom = -15.0
+theme_override_styles/background = SubResource("StyleBoxFlat_vgtop")
+theme_override_styles/fill = SubResource("StyleBoxFlat_5hl18")
+max_value = 30.0
+show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
